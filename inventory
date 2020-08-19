@@ -1,0 +1,9 @@
+[all:vars]
+ansible_user=pi
+ansible_python_interpreter=/usr/bin/python
+
+[servers]
+bramble-server-0    ansible_user=pi
+
+[agents]
+bramble-agent-0     ansible_user=pi
