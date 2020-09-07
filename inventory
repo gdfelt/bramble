@@ -6,4 +6,8 @@ ansible_python_interpreter=/usr/bin/python
 bramble-server-0    ansible_user=pi
 
 [agents]
-bramble-agent-0     ansible_user=pi
+bramble-agent-[0:3]     ansible_user=pi
+
+[cluster:children]
+servers
+agents
