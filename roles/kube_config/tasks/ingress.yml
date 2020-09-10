@@ -1,0 +1,21 @@
+- name: Create nginx ingress
+  k8s:
+    definition:
+      apiVersion: v1
+      kind: Ingress
+      metadata:
+        name: nginx-deployment
+        namespace: temp
+        annotations:
+          kubernetes.io/ingress.class: "traefik"
+          nginx.ingress.kubernetes.io/rewrite-target: /
+      spec:
+        rules:
+        - http:
+            paths:
+            - path: /test
+              # pathType: Prefix
+              backend:
+                serviceName: nginx-deployment
+                servicePort: 80
+    state: present
