@@ -1,0 +1,9 @@
+- name: Reboot pi
+  reboot:
+    msg: "Reboot initiated due to packge updates"
+    connect_timeout: 5 # minutes probably
+    reboot_timeout: 300 # Not sure
+    pre_reboot_delay: 0 # Go quick as possible
+    post_reboot_delay: 30 # Not sure if I need/want this
+    test_command: uptime
+    

@@ -12,11 +12,15 @@
   apt:
     name: "*"
     state: latest
+  notify:
+    - Reboot pi
 
 - name: Install necessary packages
   apt:
     pkg:
     - python-apt
+  notify:
+    - Reboot pi
 
 - name: Check CPU temp
   command: /opt/vc/bin/vcgencmd measure_temp
