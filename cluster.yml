@@ -1,19 +1,19 @@
 ---
-- hosts: cluster
-  gather_facts: yes
-  become: yes
-  roles:
-    - role: common
+# - hosts: cluster
+#   gather_facts: yes
+#   become: yes
+#   roles:
+#     - role: common
 
-- hosts: servers
-  become: yes
-  roles:
-    - role: server
+# - hosts: servers
+#   become: yes
+#   roles:
+#     - role: server
 
-- hosts: agents
-  become: yes
-  roles:
-    - role: agent
+# - hosts: agents
+#   become: yes
+#   roles:
+#     - role: agent
 
 - hosts: localhost
   gather_facts: false

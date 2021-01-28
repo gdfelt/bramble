@@ -1,19 +1,21 @@
-- name: nginx service
-  k8s:
+- name: create kube-verify service
+  community.kubernetes.k8s:
+    state: present
     definition:
       apiVersion: v1
       kind: Service
       metadata:
-        name: nginx-deployment
-        namespace: temp
+        name: kube-verify
+        namespace: kube-verify
       spec:
-        type: NodePort
+        type: LoadBalancer
         selector:
-          app: nginx
+          app: kube-verify
         ports:
-          - protocol: TCP
+          - name: http
+            protocol: TCP
             port: 80
-            targetPort: 80
-            nodePort: 30080
+            targetPort: 8080
+        externalTrafficPolicy: Local
 
 

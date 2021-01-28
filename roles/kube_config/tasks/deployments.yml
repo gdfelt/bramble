@@ -1,26 +1,27 @@
-- name: nginx deployment  
-  k8s:
+- name: create kube-verify deployment  
+  community.kubernetes.k8s:
+    state: present
     definition:
       apiVersion: apps/v1
       kind: Deployment
       metadata:
-        name: nginx-deployment
-        namespace: temp
+        name: kube-verify
+        namespace: kube-verify
         labels:
-          app: nginx
+          app: kube-verify
       spec:
         replicas: 3
         selector:
           matchLabels:
-            app: nginx
+            app: kube-verify
         template:
           metadata:
             labels:
-              app: nginx
+              app: kube-verify
           spec:
             containers:
             - name: nginx
-              image: nginx
+              image: quay.io/clcollins/kube-verify:01
               ports:
-              - containerPort: 80
-    state: present
+              - name: http
+                containerPort: 8080

@@ -1,6 +1,20 @@
-- name: Create temp namespace
-  k8s:
-    name: temp
+- name: Create kube-verify namespace
+  community.kubernetes.k8s:
+    name: kube-verify
+    api_version: v1
+    kind: Namespace
+    state: present
+
+- name: Create MetalLB namespace
+  community.kubernetes.k8s:
+    name: metallb-system
+    api_version: v1
+    kind: Namespace
+    state: present
+
+- name: Create Ingress Nginx namespace
+  community.kubernetes.k8s:
+    name: ingress-nginx
     api_version: v1
     kind: Namespace
     state: present

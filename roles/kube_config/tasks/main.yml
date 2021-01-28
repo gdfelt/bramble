@@ -1,6 +1,9 @@
 - name: Run Namespace tasks
   import_tasks: namespaces.yml
 
+- name: Setup MetalLB
+  import_tasks: metallb.yml
+
 - name: Run Deployment tasks
   import_tasks: deployments.yml
 
