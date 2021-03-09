@@ -45,24 +45,30 @@
 
 - name: Create directory .kube
   file:
-    path: ~{{ ansible_user }}/.kube
+    path: ~/.kube
     state: directory
     owner: "{{ ansible_user }}"
 
-- name: Copy config file to user home directory
-  copy:
-    src: /etc/rancher/k3s/k3s.yaml
-    dest: ~{{ ansible_user }}/.kube/config
-    mode: 600
-    remote_src: yes
-    owner: "{{ ansible_user }}"
+# - name: Copy config file to user home directory
+#   copy:
+#     src: /etc/rancher/k3s/k3s.yaml
+#     dest: ~/.kube/config
+#     mode: 600
+#     remote_src: yes
+#     owner: "{{ ansible_user }}"
 
 - name: Replace https://localhost:6443 by https://master-ip:6443
   command: >-
     k3s kubectl config set-cluster default
       --server=https://bramble-server-0:6443
-      --kubeconfig ~{{ ansible_user }}/.kube/config
+      --kubeconfig ~/.kube/config
   changed_when: true
+
+- name: Copy config file to user home directory
+  ansible.builtin.fetch:
+    src: /etc/rancher/k3s/k3s.yaml
+    dest: ~/.kube/config
+    flat: yes
 
 - name: Create kubectl symlink
   file:

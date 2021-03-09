@@ -1,0 +1,38 @@
+---
+- name: bootstraps newly installed OS
+  hosts: all  # Intended to be run against a single instance at a time
+  remote_user: ubuntu
+  gather_facts: no
+
+  vars:
+    - ansible_ssh_pass_old: ubuntu
+    - ansible_ssh_pass: bramblepi
+
+  tasks:
+  - name: set hostname
+    debug:
+      msg: set hostname
+
+  - name: Set password if expired
+    delegate_to: 127.0.0.1
+    become: no
+    expect:
+      command: ssh {{ ansible_ssh_common_args }} {{ ansible_user }}@{{ inventory_hostname }}
+      timeout: 10
+      responses:
+        "password:":
+          # we couldn't keep the same old password
+          - "{{ ansible_ssh_pass_old }}"
+          - "{{ ansible_ssh_pass }}"
+          - "{{ ansible_ssh_pass }}"
+        # if succesfully login then quit
+        "\\~\\]\\$": exit
+    register: status
+    changed_when: "'authentication tokens updated successfully' in status.stdout"
+
+  - name: print status
+    debug:
+      msg: "{{ status }}"
+
+  - name: Now need to run gather facts
+    setup:

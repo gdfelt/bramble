@@ -1,6 +1,6 @@
 - name: Set authorized key taken from file
   authorized_key:
-    user: pi
+    user: ubuntu
     state: present
     key: "{{ lookup('file', '~/.ssh/id_rsa.pub') }}"
 
@@ -12,19 +12,24 @@
   apt:
     name: "*"
     state: latest
+
+- name: Check if restart required
+  ansible.builtin.stat:
+    path: /var/run/reboot-required
+  register: r
+  changed_when: r.stat.exists
   notify:
     - Reboot pi
 
-- name: Install necessary packages
-  apt:
-    pkg:
-    - python-apt
-  notify:
-    - Reboot pi
 
-- name: Check CPU temp
-  command: /opt/vc/bin/vcgencmd measure_temp
-  register: cpu_temp
+# - name: Install necessary packages
+#   apt:
+#     pkg:
+#     - python-apt
+#   notify:
+#     - Reboot pi
+
+# - name: 
 
 - name: Enable IPv4 forwarding
   sysctl:
@@ -40,8 +45,8 @@
     state: present
     reload: yes
 
-- name: print CPU Temp
-  debug: 
-    msg: "{{cpu_temp.stdout}}"
+# # - name: print CPU Temp
+# #   debug: 
+# #     msg: "{{cpu_temp.stdout}}"
 
 

@@ -7,6 +7,7 @@ After=network-online.target
 Type=notify
 ExecStartPre=-/sbin/modprobe br_netfilter
 ExecStartPre=-/sbin/modprobe overlay
+#ExecStart=/usr/local/bin/k3s agent --server https://{{ hostvars[groups['servers'][0]]['ansible_default_ipv4']['address'] }}:6443 --token {{ hostvars[groups['servers'][0]]['token'] }} {{ extra_agent_args | default("") }}
 ExecStart=/usr/local/bin/k3s agent --server https://bramble-server-0:6443 --token {{ hostvars[groups['servers'][0]]['token'] }} {{ extra_agent_args | default("") }}
 KillMode=process
 Delegate=yes

@@ -1,12 +1,12 @@
 [all:vars]
-ansible_user=pi
-ansible_python_interpreter=/usr/bin/python
+ansible_user=ubuntu
+ansible_python_interpreter=/usr/bin/python3
 
 [servers]
-bramble-server-0    ansible_user=pi
+bramble-server-0    ansible_user=ubuntu
 
 [agents]
-bramble-agent-[0:3]     ansible_user=pi
+bramble-agent-[0:3]     ansible_user=ubuntu
 
 [cluster:children]
 servers

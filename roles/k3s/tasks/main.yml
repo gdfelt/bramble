@@ -5,35 +5,36 @@
 
 - name: Download k3s binary arm64
   get_url:
-    url: https://github.com/rancher/k3s/releases/download/v1.18.8%2Bk3s1/k3s-armhf
+    url: https://github.com/k3s-io/k3s/releases/download/{{ k3s_version }}/k3s-arm64
+    checksum: sha256:https://github.com/k3s-io/k3s/releases/download/{{ k3s_version }}/sha256sum-arm64.txt
     dest: /usr/local/bin/k3s
     owner: root
     group: root
-    mode: 0755  
+    mode: 0755
 
-- name: Activating cgroup support
+- name: Enable cgroup via boot commandline if not already enabled for Ubuntu on a Raspberry Pi
   lineinfile:
-    path: /boot/cmdline.txt
+    path: /boot/firmware/cmdline.txt
+    backrefs: yes
     regexp: '^((?!.*\bcgroup_enable=cpuset cgroup_memory=1 cgroup_enable=memory\b).*)$'
     line: '\1 cgroup_enable=cpuset cgroup_memory=1 cgroup_enable=memory'
-    backrefs: true
   notify: reboot
 
-- name: Flush iptables before changing to iptables-legacy
-  iptables:
-    flush: true
-  changed_when: false   # iptables flush always returns changed
+# - name: Flush iptables before changing to iptables-legacy
+#   iptables:
+#     flush: true
+#   changed_when: false   # iptables flush always returns changed
 
-- name: Changing to iptables-legacy
-  alternatives:
-    path: /usr/sbin/iptables-legacy
-    name: iptables
-  register: ip4_legacy
+# - name: Changing to iptables-legacy
+#   alternatives:
+#     path: /usr/sbin/iptables-legacy
+#     name: iptables
+#   register: ip4_legacy
 
-- name: Changing to ip6tables-legacy
-  alternatives:
-    path: /usr/sbin/ip6tables-legacy
-    name: ip6tables
-  register: ip6_legacy
+# - name: Changing to ip6tables-legacy
+#   alternatives:
+#     path: /usr/sbin/ip6tables-legacy
+#     name: ip6tables
+#   register: ip6_legacy
 
 

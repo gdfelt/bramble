@@ -1,5 +1,4 @@
 ---
-
 - name: Copy K3s service file
   template:
     src: "k3s.service.j2"
@@ -8,9 +7,18 @@
     group: root
     mode: 0755
 
-- name: Enable and check K3s service
-  systemd:
+- name: debug
+  debug:
+    msg: "{{ hostvars[groups['servers'][0]]['ansible_default_ipv4']['address'] }}"
+
+- name: Stop and check K3s service for restart
+  ansible.builtin.systemd:
     name: k3s-node
     daemon_reload: yes
-    state: restarted
+    state: stopped
     enabled: yes
+
+- name: Start K3s service
+  ansible.builtin.systemd:
+    name: k3s-node
+    state: started
