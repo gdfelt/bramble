@@ -21,7 +21,6 @@
   notify:
     - Reboot pi
 
-
 # - name: Install necessary packages
 #   apt:
 #     pkg:
@@ -29,7 +28,7 @@
 #   notify:
 #     - Reboot pi
 
-# - name: 
+# - name:
 
 - name: Enable IPv4 forwarding
   sysctl:
@@ -44,9 +43,7 @@
     value: "1"
     state: present
     reload: yes
-
 # # - name: print CPU Temp
-# #   debug: 
+# #   debug:
 # #     msg: "{{cpu_temp.stdout}}"
-
 
