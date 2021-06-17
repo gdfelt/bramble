@@ -21,4 +21,4 @@
 - name: Start K3s service
   ansible.builtin.systemd:
     name: k3s-node
-    state: started
+    state: restarted
