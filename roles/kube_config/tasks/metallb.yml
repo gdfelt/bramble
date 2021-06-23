@@ -17,20 +17,20 @@
   community.kubernetes.k8s:
     definition: '{{ item }}'
     namespace: metallb-system
-  with_items: '{{ lookup("url", "https://raw.githubusercontent.com/metallb/metallb/v0.9.5/manifests/metallb.yaml", split_lines=False) | from_yaml_all | list }}'
+  with_items: '{{ lookup("url", "https://raw.githubusercontent.com/metallb/metallb/v0.10.2/manifests/metallb.yaml", split_lines=False) | from_yaml_all | list }}'
   when: item is not none
 
-- name: Create secret for metallb
-  community.kubernetes.k8s:
-    state: present
-    definition:
-      apiVersion: v1
-      kind: Secret
-      metadata:
-        name: memberlist
-        namespace: metallb-system
-      type: Opaque
-      data:
+# - name: Create secret for metallb
+#   community.kubernetes.k8s:
+#     state: present
+#     definition:
+#       apiVersion: v1
+#       kind: Secret
+#       metadata:
+#         name: memberlist
+#         namespace: metallb-system
+#       type: Opaque
+#       data:
 
 - name: Create config map for address pool
   community.kubernetes.k8s:
@@ -44,15 +44,15 @@
       data:
         config: |
           address-pools:
-          - name: address-pool-1
+          - name: default
             protocol: layer2
             addresses:
-              - 192.168.15.0/24
+              - 192.168.10.1-192.168.10.254
 
-# kubectl apply -f https://raw.githubusercontent.com/kubernetes/ingress-nginx/controller-v0.43.0/deploy/static/provider/baremetal/deploy.yaml
-- name: Install ingress-nginx
-  community.kubernetes.k8s:
-    definition: '{{item}}'
-    namespace: ingress-nginx
-  with_items: '{{ lookup("url", "https://raw.githubusercontent.com/kubernetes/ingress-nginx/controller-v0.43.0/deploy/static/provider/baremetal/deploy.yaml", split_lines=False) | from_yaml_all | list }}'
-  when: item is not none
+# # kubectl apply -f https://raw.githubusercontent.com/kubernetes/ingress-nginx/controller-v0.43.0/deploy/static/provider/baremetal/deploy.yaml
+# - name: Install ingress-nginx
+#   community.kubernetes.k8s:
+#     definition: '{{item}}'
+#     namespace: ingress-nginx
+#   with_items: '{{ lookup("url", "https://raw.githubusercontent.com/kubernetes/ingress-nginx/controller-v0.43.0/deploy/static/provider/baremetal/deploy.yaml", split_lines=False) | from_yaml_all | list }}'
+#   when: item is not none

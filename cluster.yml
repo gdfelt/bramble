@@ -1,23 +1,23 @@
 ---
-- hosts: cluster
-  gather_facts: yes
-  become: yes
-  roles:
-    - role: common
-    - role: k3s
-
-- hosts: servers
-  become: yes
-  roles:
-    - role: server
-
-- hosts: agents
-  become: yes
-  roles:
-    - role: agent
-
-# - hosts: localhost
-#   gather_facts: false
-#   connection: local
+# - hosts: cluster
+#   gather_facts: yes
+#   become: yes
 #   roles:
-#     - role: kube_config
+#     - role: common
+#     - role: k3s
+
+# - hosts: servers
+#   become: yes
+#   roles:
+#     - role: server
+
+# - hosts: agents
+#   become: yes
+#   roles:
+#     - role: agent
+
+- hosts: localhost
+  gather_facts: false
+  connection: local
+  roles:
+    - role: kube_config

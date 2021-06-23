@@ -10,7 +10,7 @@
 - name: Run Service tasks
   import_tasks: services.yml
 
-- name: Run Ingress tasks
-  import_tasks: ingress.yml
+# - name: Run Ingress tasks
+#   import_tasks: ingress.yml
 
 
